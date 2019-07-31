@@ -151,38 +151,33 @@
           .then(function(myJson) {
             serverData = myJson;
             for (let i = 0; i < serverData.length; i++) {
-              let noteClass = document.createElement("div");
-              noteClass.classList.add("note");
-              let noteHeader = document.createElement("div");
-              noteHeader.classList.add("note-header");
-              let modalTitle = document.createElement("h5");
-              modalTitle.classList.add("modal-title");
-              modalTitle.textContent = "Sticky Notes " + count;
-              noteHeader.appendChild(modalTitle);
-              let noteBody = document.createElement("div");
-              noteBody.classList.add("note-body");
-              let noteText = document.createElement("p");
-              noteText.classList.add("note-text");
-              noteText.contentEditable = true;
-              noteText.setAttribute("data-id", serverData[i]._id);
-              noteText.textContent = serverData[i].note;
-              noteBody.appendChild(noteText);
-              let noteFooter = document.createElement("div");
-              noteFooter.classList.add("note-footer");
-              let deleteButton = document.createElement("button");
-              deleteButton.classList.add("close");
-              deleteButton.setAttribute("aria-label", "Delete");
-              deleteButton.setAttribute("data-id", serverData[i]._id);
-              let spanElememt = document.createElement("span");
-              spanElememt.setAttribute("aria-hidden", true);
-              spanElememt.classList.add("fa", "fa-trash-o", "text-danger");
-              deleteButton.appendChild(spanElememt);
-              noteFooter.appendChild(deleteButton);
-              noteClass.appendChild(noteHeader);
-              noteClass.appendChild(noteBody);
-              noteClass.appendChild(noteFooter);
-              noteContainer.appendChild(noteClass);
+              let noteClass = `
+              <div class = "note">
+              	<div class = "note-header">
+      		        <h5 class = "note-header">${count}</h5>
+      	        </div>
+      	        <div class = "note-body">
+      		        <p class = "note-text" contenteditable = "true" data-id = ${
+                    serverData[i]._id
+                  }>
+      			        ${serverData[i].note} </p>
+      	        </div>
+      	        <div class = "note-footer">
+      	        	<button class = "close" aria-label = "Delete" data-id = ${
+                    serverData[i]._id
+                  }>
+      		        	<span aria-hidden = "true" class = "fa fa-trash-o text-danger">
+      		        	<span>
+      	        	</button>
+      	        </div>
+              </div> `;
+              let fetchDiv = document
+                .createRange()
+                .createContextualFragment(noteClass);
+              noteContainer.appendChild(fethcDiv);
               count = count + 1;
+              let noteText = document.createElement("p");
+              let deleteButton = document.createElement("button");
               noteText.addEventListener("click", e => {
                 newElement = e.target;
                 prevText = newElement.textContent;
@@ -327,9 +322,9 @@
         });
 
         /* function prevData(element) {
-                    prevText = element.textContent;
-                    return prevText;
-                  } */
+                        prevText = element.textContent;
+                        return prevText;
+                      } */
         function getData(element) {
           let newData = element.textContent;
           data = {
