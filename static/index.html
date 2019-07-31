@@ -196,8 +196,8 @@
                 .createContextualFragment(noteClass);
               noteContainer.appendChild(fetchDiv);
               count = count + 1;
-              let noteText = document.querySelector(".p");
-              let deleteButton = document.querySelector(".button");
+              let noteText = document.querySelector(".note-text");
+              let deleteButton = document.querySelector(".close");
               noteText.addEventListener("click", e => {
                 newElement = e.target;
                 prevText = newElement.textContent;
