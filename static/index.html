@@ -140,6 +140,26 @@
         const noteContainer = document.querySelector(".row");
         let count = 1;
 
+        function deleteNote(element) {
+          if (element.getAttribute("data-id") === null) {
+            element.parentNode.parentNode.remove();
+          } else {
+            deleteURL = url + element.getAttribute("data-id");
+            fetch(deleteURL, {
+              method: "DELETE",
+              body: JSON.stringify(data),
+              headers: {
+                "Content-Type": "application/json"
+              }
+            })
+              .then(res => res.json())
+              .then(function(response) {
+                element.parentNode.parentNode.remove();
+              })
+              .catch(error => console.error("Error:", error));
+          }
+        }
+
         for (let i = 0; i < 3; i++) {
           document.querySelector(".row").firstElementChild.remove();
         }
@@ -154,7 +174,7 @@
               let noteClass = `
               <div class = "note">
               	<div class = "note-header">
-      		        <h5 class = "note-header">${count}</h5>
+      		        <h5 class = "note-header">Sticky Notes: ${count}</h5>
       	        </div>
       	        <div class = "note-body">
       		        <p class = "note-text" contenteditable = "true" data-id = ${
