@@ -187,6 +187,10 @@
                 newElement = e.target;
                 prevText = newElement.textContent;
               });
+
+              deleteButton.addEventListener("click", () => {
+                deleteNote(deleteButton);
+              });
             }
           });
 
