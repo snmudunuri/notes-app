@@ -183,6 +183,10 @@
               noteClass.appendChild(noteFooter);
               noteContainer.appendChild(noteClass);
               count = count + 1;
+              noteText.addEventListener("click", e => {
+                newElement = e.target;
+                prevText = newElement.textContent;
+              });
             }
           });
 
