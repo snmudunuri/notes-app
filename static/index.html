@@ -137,11 +137,11 @@
         let data = {};
         let id = null;
         let serverData = {};
-        const noteContainer = document.querySelector('.row');
-        let count =0;
+        const noteContainer = document.querySelector(".row");
+        let count = 1;
 
-        for(let i=0; i<3;i++){
-          document.querySelector('.row').firstElementChild.remove();
+        for (let i = 0; i < 3; i++) {
+          document.querySelector(".row").firstElementChild.remove();
         }
 
         fetch("/api/notes")
@@ -150,45 +150,42 @@
           })
           .then(function(myJson) {
             serverData = myJson;
-            for(let i=0; i<serverData.length;i++){
-            let noteClass = document.createElement("div");
-            noteClass.classList.add('note');
-            let noteHeader = document.createElement("div");
-            noteHeader.classList.add("note-header");
-            let modalTitle = document.createElement("h5");
-            modalTitle.classList.add("modal-title");
-            modalTitle.textContent = "Sticky Notes " + i;
-            noteHeader.appendChild(modalTitle);
-            let noteBody = document.createElement("div");
-            noteBody.classList.add("note-body");
-            let noteText = document.createElement("p");
-            noteText.classList.add("note-text");
-            noteText.contentEditable = true;
-            noteText.setAttribute("data-id",serverData[i]._id);
-            noteText.textContent = serverData[i].note;
-            noteBody.appendChild(noteText);
-            let noteFooter = document.createElement("div");
-            noteFooter.classList.add("note-footer");
-            let deleteButton = document.createElement("button");
-            deleteButton.classList.add("close");
-            deleteButton.setAttribute("aria-label","Delete");
-            deleteButton.setAttribute("data-id",serverData[i]._id);
-            let spanElememt = document.createElement("span");
-            spanElememt.setAttribute("aria-hidden", true);
-            spanElememt.classList.add("fa.fa-trash-o.text-danger");
-            deleteButton.appendChild(spanElememt);
-            noteFooter.appendChild(deleteButton);
-            noteClass.appendChild(noteHeader);
-            noteClass.appendChild(noteBody);
-            noteClass.appendChild(noteFooter);
-            noteContainer.appendChild(noteClass);
-            count = count+1;
-
-          }
-
+            for (let i = 0; i < serverData.length; i++) {
+              let noteClass = document.createElement("div");
+              noteClass.classList.add("note");
+              let noteHeader = document.createElement("div");
+              noteHeader.classList.add("note-header");
+              let modalTitle = document.createElement("h5");
+              modalTitle.classList.add("modal-title");
+              modalTitle.textContent = "Sticky Notes " + count;
+              noteHeader.appendChild(modalTitle);
+              let noteBody = document.createElement("div");
+              noteBody.classList.add("note-body");
+              let noteText = document.createElement("p");
+              noteText.classList.add("note-text");
+              noteText.contentEditable = true;
+              noteText.setAttribute("data-id", serverData[i]._id);
+              noteText.textContent = serverData[i].note;
+              noteBody.appendChild(noteText);
+              let noteFooter = document.createElement("div");
+              noteFooter.classList.add("note-footer");
+              let deleteButton = document.createElement("button");
+              deleteButton.classList.add("close");
+              deleteButton.setAttribute("aria-label", "Delete");
+              deleteButton.setAttribute("data-id", serverData[i]._id);
+              let spanElememt = document.createElement("span");
+              spanElememt.setAttribute("aria-hidden", true);
+              spanElememt.classList.add("fa.fa-trash-o.text-danger");
+              deleteButton.appendChild(spanElememt);
+              noteFooter.appendChild(deleteButton);
+              noteClass.appendChild(noteHeader);
+              noteClass.appendChild(noteBody);
+              noteClass.appendChild(noteFooter);
+              noteContainer.appendChild(noteClass);
+              count = count + 1;
+            }
           });
 
-         
         const closeButton = document.querySelectorAll(".close");
 
         function deleteNote(element) {
@@ -233,32 +230,32 @@
         document
           .querySelector(".btn.btn-primary")
           .addEventListener("click", e => {
-            count = count +1;
             var clone1 = document.querySelectorAll(".note")[
               document.querySelectorAll(".note").length - 1
             ];
             var clone3 = clone1.cloneNode(true);
             clone3.firstElementChild.firstElementChild.textContent =
               "Sticky Notes " + count;
-            clone3.childNodes[3].firstElementChild.textContent = " ";
+            count = count + 1;
+            clone3.childNodes[1].firstElementChild.textContent = " ";
 
-            clone3.childNodes[3].firstElementChild.addEventListener(
+            clone3.childNodes[1].firstElementChild.addEventListener(
               "click",
               e => {
                 newElement = e.target;
                 prevText = newElement.textContent;
               }
             );
-            clone3.childNodes[3].firstElementChild.removeAttribute("data-id");
-            clone3.childNodes[3].firstElementChild.parentNode.nextElementSibling.firstElementChild.removeAttribute(
+            clone3.childNodes[1].firstElementChild.removeAttribute("data-id");
+            clone3.childNodes[1].firstElementChild.parentNode.nextElementSibling.firstElementChild.removeAttribute(
               "data-id"
             );
             clone1.insertAdjacentElement("afterend", clone3);
-            clone3.childNodes[3].firstElementChild.parentNode.nextElementSibling.firstElementChild.addEventListener(
+            clone3.childNodes[1].firstElementChild.parentNode.nextElementSibling.firstElementChild.addEventListener(
               "click",
               () => {
                 deleteNote(
-                  clone3.childNodes[3].firstElementChild.parentNode
+                  clone3.childNodes[1].firstElementChild.parentNode
                     .nextElementSibling.firstElementChild
                 );
               }
