@@ -175,7 +175,7 @@
               deleteButton.setAttribute("data-id", serverData[i]._id);
               let spanElememt = document.createElement("span");
               spanElememt.setAttribute("aria-hidden", true);
-              spanElememt.classList.add("fa.fa-trash-o.text-danger");
+              spanElememt.classList.add("fa", "fa-trash-o", "text-danger");
               deleteButton.appendChild(spanElememt);
               noteFooter.appendChild(deleteButton);
               noteClass.appendChild(noteHeader);
