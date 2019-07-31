@@ -196,8 +196,8 @@
                 .createContextualFragment(noteClass);
               noteContainer.appendChild(fetchDiv);
               count = count + 1;
-              let noteText = document.createElement("p");
-              let deleteButton = document.createElement("button");
+              let noteText = document.querySelector(".p");
+              let deleteButton = document.querySelector(".button");
               noteText.addEventListener("click", e => {
                 newElement = e.target;
                 prevText = newElement.textContent;
@@ -211,26 +211,7 @@
 
         const closeButton = document.querySelectorAll(".close");
 
-        function deleteNote(element) {
-          if (element.getAttribute("data-id") === null) {
-            element.parentNode.parentNode.remove();
-          } else {
-            deleteURL = url + element.getAttribute("data-id");
-            fetch(deleteURL, {
-              method: "DELETE",
-              body: JSON.stringify(data),
-              headers: {
-                "Content-Type": "application/json"
-              }
-            })
-              .then(res => res.json())
-              .then(function(response) {
-                element.parentNode.parentNode.remove();
-              })
-              .catch(error => console.error("Error:", error));
-          }
-        }
-
+      
         for (
           let i = 0;
           i < document.querySelectorAll(".note-text").length;
