@@ -230,30 +230,34 @@
         document
           .querySelector(".btn.btn-primary")
           .addEventListener("click", e => {
-            var clone1 = document.querySelector(".note");
-            var clone3 = clone1.cloneNode(true);
+            let clone1 = document.querySelector(".note");
+            let lastElement = document.querySelectorAll(".note")[
+              document.querySelectorAll(".note").length - 1
+            ];
+            let clone3 = clone1.cloneNode(true);
+            clone3.removeAttribute("style");
             clone3.firstElementChild.firstElementChild.textContent =
               "Sticky Notes " + count;
             count = count + 1;
-            clone3.childNodes[1].firstElementChild.textContent = " ";
+            clone3.childNodes[3].firstElementChild.textContent = " ";
 
-            clone3.childNodes[1].firstElementChild.addEventListener(
+            clone3.childNodes[3].firstElementChild.addEventListener(
               "click",
               e => {
                 newElement = e.target;
                 prevText = newElement.textContent;
               }
             );
-            clone3.childNodes[1].firstElementChild.removeAttribute("data-id");
-            clone3.childNodes[1].firstElementChild.parentNode.nextElementSibling.firstElementChild.removeAttribute(
+            clone3.childNodes[3].firstElementChild.removeAttribute("data-id");
+            clone3.childNodes[3].firstElementChild.parentNode.nextElementSibling.firstElementChild.removeAttribute(
               "data-id"
             );
-            clone1.insertAdjacentElement("afterend", clone3);
-            clone3.childNodes[1].firstElementChild.parentNode.nextElementSibling.firstElementChild.addEventListener(
+            lastElement.insertAdjacentElement("afterend", clone3);
+            clone3.childNodes[3].firstElementChild.parentNode.nextElementSibling.firstElementChild.addEventListener(
               "click",
               () => {
                 deleteNote(
-                  clone3.childNodes[1].firstElementChild.parentNode
+                  clone3.childNodes[3].firstElementChild.parentNode
                     .nextElementSibling.firstElementChild
                 );
               }
