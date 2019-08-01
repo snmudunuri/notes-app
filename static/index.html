@@ -130,7 +130,6 @@
         let id = null;
         let serverData = {};
         const noteContainer = document.querySelector(".row");
-        let count = 1;
         retrieveData();
         setTimeout(function() {
           addListeners();
@@ -139,7 +138,6 @@
         function deleteNote(element) {
           if (element.getAttribute("data-id") === null) {
             element.parentNode.parentNode.remove();
-            //window.location.reload(true);
           } else {
             deleteURL = url + element.getAttribute("data-id");
             fetch(deleteURL, {
@@ -152,8 +150,6 @@
               .then(res => res.json())
               .then(function(response) {
                 element.parentNode.parentNode.remove();
-                //  count = 1;
-                // window.location.reload(true);
               })
               .catch(error => console.error("Error:", error));
           }
@@ -195,7 +191,6 @@
                   .createRange()
                   .createContextualFragment(noteClass);
                 noteContainer.appendChild(fetchDiv);
-                //  count = count + 1;
               }
             });
         }
@@ -232,7 +227,7 @@
             clone3.removeAttribute("style");
             clone3.firstElementChild.firstElementChild.textContent =
               "Sticky Notes ";
-            //count = count + 1;
+
             clone3.childNodes[3].firstElementChild.textContent = " ";
 
             clone3.childNodes[3].firstElementChild.addEventListener(
