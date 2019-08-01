@@ -67,7 +67,7 @@ footer p {
 .container .row {
   counter-reset: count;
 }
-h5.note-header::after {
+h5.modal-title::after {
   content: counter(count);
   counter-increment: count;
 }
