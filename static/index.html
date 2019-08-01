@@ -202,10 +202,17 @@
             i < document.querySelectorAll(".note-text").length;
             i++
           ) {
-            document
-              .querySelectorAll(".note-text")
+            document;
+            /* .querySelectorAll(".note-text")
               [i].addEventListener("click", e => {
                 newElement = e.target;
+                prevText = newElement.textContent;
+              }); */
+            document
+              .querySelectorAll(".note")
+              [i].addEventListener("click", e => {
+                document.querySelectorAll(".note-text")[i].focus();
+                newElement = document.querySelectorAll(".note-text")[i];
                 prevText = newElement.textContent;
               });
           }
@@ -230,13 +237,19 @@
 
             clone3.childNodes[3].firstElementChild.textContent = " ";
 
-            clone3.childNodes[3].firstElementChild.addEventListener(
+            clone3.addEventListener("click", e => {
+              clone3.childNodes[3].firstElementChild.textContent.focus();
+              newElement = clone3.childNodes[3].firstElementChild;
+              prevText = newElement.textContent;
+            });
+
+            /*  childNodes[3].firstElementChild.addEventListener(
               "click",
               e => {
                 newElement = e.target;
                 prevText = newElement.textContent;
               }
-            );
+            ); */
             clone3.childNodes[3].firstElementChild.removeAttribute("data-id");
             clone3.childNodes[3].firstElementChild.parentNode.nextElementSibling.firstElementChild.removeAttribute(
               "data-id"
