@@ -135,6 +135,60 @@
           addListeners();
         }, 600);
 
+        document.addEventListener("click", function(event) {
+          // console.log(newElement);
+          if (newElement !== undefined) {
+            var isClickInside = newElement.contains(event.target);
+            //  console.log("tset");
+
+            if (!isClickInside) {
+              getData(newElement);
+              //     console.log(newElement.getAttribute("data-id"));
+              if (newElement.getAttribute("data-id") === null) {
+                //  console.log("loop");
+                fetch(url, {
+                  method: "POST",
+                  body: JSON.stringify(data),
+                  headers: {
+                    "Content-Type": "application/json"
+                  }
+                })
+                  .then(res => res.json())
+                  .then(function(response) {
+                    id = response._id;
+
+                    newElement.setAttribute("data-id", id);
+                    newElement.parentNode.nextElementSibling.firstElementChild.setAttribute(
+                      "data-id",
+                      id
+                    );
+                  })
+                  .catch(error => console.error("Error:", error));
+
+                prevText = getData(newElement);
+              } else if (newElement.getAttribute("data-id") !== null) {
+                //console.log("PUT loop");
+                let newURL = url + newElement.getAttribute("data-id");
+
+                if (prevText != getData(newElement)) {
+                  // console.log("New Data " + getData(newElement));
+                  //  console.log("Prev Data " + prevText);
+                  fetch(newURL, {
+                    method: "PUT",
+                    body: JSON.stringify(data),
+                    headers: {
+                      "Content-Type": "application/json"
+                    }
+                  })
+                    .then(res => res.json())
+                    .then(response => JSON.stringify(response))
+                    .catch(error => console.error("Error:", error));
+                  prevText = getData(newElement);
+                }
+              }
+            }
+          }
+        });
         function deleteNote(element) {
           if (element.getAttribute("data-id") === null) {
             element.parentNode.parentNode.remove();
@@ -216,8 +270,8 @@
               });
           }
           for (let i = 0; i < closeButton.length; i++) {
-            closeButton[i].addEventListener("click", () => {
-              e.stopPropagation();
+            closeButton[i].addEventListener("click", event => {
+              event.stopPropagation();
               deleteNote(closeButton[i]);
             });
           }
@@ -257,8 +311,8 @@
             lastElement.insertAdjacentElement("afterend", clone3);
             clone3.childNodes[3].firstElementChild.parentNode.nextElementSibling.firstElementChild.addEventListener(
               "click",
-              () => {
-                e.stopPropagation();
+              event => {
+                event.stopPropagation();
                 deleteNote(
                   clone3.childNodes[3].firstElementChild.parentNode
                     .nextElementSibling.firstElementChild
@@ -267,61 +321,6 @@
             );
           });
         //console.log(newElement);
-
-        document.addEventListener("click", function(event) {
-          // console.log(newElement);
-          if (newElement !== undefined) {
-            var isClickInside = newElement.contains(event.target);
-            //  console.log("tset");
-
-            if (!isClickInside) {
-              getData(newElement);
-              //     console.log(newElement.getAttribute("data-id"));
-              if (newElement.getAttribute("data-id") === null) {
-                //  console.log("loop");
-                fetch(url, {
-                  method: "POST",
-                  body: JSON.stringify(data),
-                  headers: {
-                    "Content-Type": "application/json"
-                  }
-                })
-                  .then(res => res.json())
-                  .then(function(response) {
-                    id = response._id;
-
-                    newElement.setAttribute("data-id", id);
-                    newElement.parentNode.nextElementSibling.firstElementChild.setAttribute(
-                      "data-id",
-                      id
-                    );
-                  })
-                  .catch(error => console.error("Error:", error));
-
-                prevText = getData(newElement);
-              } else if (newElement.getAttribute("data-id") !== null) {
-                //console.log("PUT loop");
-                let newURL = url + newElement.getAttribute("data-id");
-
-                if (prevText != getData(newElement)) {
-                  // console.log("New Data " + getData(newElement));
-                  //  console.log("Prev Data " + prevText);
-                  fetch(newURL, {
-                    method: "PUT",
-                    body: JSON.stringify(data),
-                    headers: {
-                      "Content-Type": "application/json"
-                    }
-                  })
-                    .then(res => res.json())
-                    .then(response => JSON.stringify(response))
-                    .catch(error => console.error("Error:", error));
-                  prevText = getData(newElement);
-                }
-              }
-            }
-          }
-        });
 
         function getData(element) {
           let newData = element.textContent;
