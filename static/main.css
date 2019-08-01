@@ -64,3 +64,10 @@ footer p {
   margin-bottom: .25rem;
 }
 
+.container .row {
+  counter-reset: count;
+}
+h5.note-header::after {
+  content: counter(count);
+  counter-increment: count;
+}

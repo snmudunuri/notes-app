@@ -139,7 +139,7 @@
         function deleteNote(element) {
           if (element.getAttribute("data-id") === null) {
             element.parentNode.parentNode.remove();
-            window.location.reload(true);
+            //window.location.reload(true);
           } else {
             deleteURL = url + element.getAttribute("data-id");
             fetch(deleteURL, {
@@ -152,8 +152,8 @@
               .then(res => res.json())
               .then(function(response) {
                 element.parentNode.parentNode.remove();
-                count = 1;
-                window.location.reload(true);
+                //  count = 1;
+                // window.location.reload(true);
               })
               .catch(error => console.error("Error:", error));
           }
@@ -174,7 +174,7 @@
                 let noteClass = `
               <div class = "note">
               	<div class = "note-header">
-      		        <h5 class = "note-header">Sticky Notes: ${count}</h5>
+      		        <h5 class = "note-header">Sticky Notes: </h5>
       	        </div>
       	        <div class = "note-body">
       		        <p class = "note-text" contenteditable = "true" data-id = ${
@@ -195,7 +195,7 @@
                   .createRange()
                   .createContextualFragment(noteClass);
                 noteContainer.appendChild(fetchDiv);
-                count = count + 1;
+                //  count = count + 1;
               }
             });
         }
@@ -231,8 +231,8 @@
             let clone3 = clone1.cloneNode(true);
             clone3.removeAttribute("style");
             clone3.firstElementChild.firstElementChild.textContent =
-              "Sticky Notes " + count;
-            count = count + 1;
+              "Sticky Notes ";
+            //count = count + 1;
             clone3.childNodes[3].firstElementChild.textContent = " ";
 
             clone3.childNodes[3].firstElementChild.addEventListener(
