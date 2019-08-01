@@ -202,8 +202,7 @@
             i < document.querySelectorAll(".note-text").length;
             i++
           ) {
-            document;
-            /* .querySelectorAll(".note-text")
+            /* documen.querySelectorAll(".note-text")
               [i].addEventListener("click", e => {
                 newElement = e.target;
                 prevText = newElement.textContent;
@@ -218,6 +217,7 @@
           }
           for (let i = 0; i < closeButton.length; i++) {
             closeButton[i].addEventListener("click", () => {
+              e.stopPropagation();
               deleteNote(closeButton[i]);
             });
           }
@@ -258,6 +258,7 @@
             clone3.childNodes[3].firstElementChild.parentNode.nextElementSibling.firstElementChild.addEventListener(
               "click",
               () => {
+                e.stopPropagation();
                 deleteNote(
                   clone3.childNodes[3].firstElementChild.parentNode
                     .nextElementSibling.firstElementChild
