@@ -47,18 +47,10 @@
         <div class="row">
           <div class="note">
             <div class="note-header">
-              <h5 class="modal-title">Sticky note 1.</h5>
+              <h5 class="modal-title"></h5>
             </div>
             <div class="note-body">
-              <p class="note-text" contenteditable="true">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
+              <p class="note-text" contenteditable="true"></p>
             </div>
             <div class="note-footer">
               <button type="button" class="close" aria-label="Delete">
@@ -139,10 +131,18 @@
         let serverData = {};
         const noteContainer = document.querySelector(".row");
         let count = 1;
+        retrieveData();
+        setTimeout(function() {
+          console.log(document.querySelectorAll(".note-text").length);
+          console.log(document.querySelectorAll(".close").length);
+
+          addListeners();
+        }, 600);
 
         function deleteNote(element) {
           if (element.getAttribute("data-id") === null) {
             element.parentNode.parentNode.remove();
+            window.location.reload(true);
           } else {
             deleteURL = url + element.getAttribute("data-id");
             fetch(deleteURL, {
@@ -155,23 +155,26 @@
               .then(res => res.json())
               .then(function(response) {
                 element.parentNode.parentNode.remove();
+                count = 1;
+                window.location.reload(true);
               })
               .catch(error => console.error("Error:", error));
           }
         }
 
         for (let i = 0; i < 3; i++) {
-          document.querySelector(".row").firstElementChild.remove();
+          document.querySelectorAll(".note")[i].style.display = "none";
         }
 
-        fetch("/api/notes")
-          .then(function(response) {
-            return response.json();
-          })
-          .then(function(myJson) {
-            serverData = myJson;
-            for (let i = 0; i < serverData.length; i++) {
-              let noteClass = `
+        function retrieveData() {
+          fetch("/api/notes")
+            .then(function(response) {
+              return response.json();
+            })
+            .then(function(myJson) {
+              serverData = myJson;
+              for (let i = 0; i < serverData.length; i++) {
+                let noteClass = `
               <div class = "note">
               	<div class = "note-header">
       		        <h5 class = "note-header">Sticky Notes: ${count}</h5>
@@ -191,52 +194,43 @@
       	        	</button>
       	        </div>
               </div> `;
-              let fetchDiv = document
-                .createRange()
-                .createContextualFragment(noteClass);
-              noteContainer.appendChild(fetchDiv);
-              count = count + 1;
-              let noteText = document.querySelector(".note-text");
-              let deleteButton = document.querySelector(".close");
-              noteText.addEventListener("click", e => {
-                newElement = e.target;
-                prevText = newElement.textContent;
-              });
-
-              deleteButton.addEventListener("click", () => {
-                deleteNote(deleteButton);
-              });
-            }
-          });
-
-        const closeButton = document.querySelectorAll(".close");
-
-      
-        for (
-          let i = 0;
-          i < document.querySelectorAll(".note-text").length;
-          i++
-        ) {
-          document
-            .querySelectorAll(".note-text")
-            [i].addEventListener("click", e => {
-              newElement = e.target;
-              prevText = newElement.textContent;
+                let fetchDiv = document
+                  .createRange()
+                  .createContextualFragment(noteClass);
+                noteContainer.appendChild(fetchDiv);
+                count = count + 1;
+              }
             });
         }
 
-        for (let i = 0; i < closeButton.length; i++) {
-          closeButton[i].addEventListener("click", () => {
-            deleteNote(closeButton[i]);
-          });
+        function addListeners() {
+          const closeButton = document.querySelectorAll(".close");
+          for (
+            let i = 0;
+            i < document.querySelectorAll(".note-text").length;
+            i++
+          ) {
+            document
+              .querySelectorAll(".note-text")
+              [i].addEventListener("click", e => {
+                newElement = e.target;
+                prevText = newElement.textContent;
+              });
+          }
+          console.log(newElement);
+          console.log(prevText);
+
+          for (let i = 0; i < closeButton.length; i++) {
+            closeButton[i].addEventListener("click", () => {
+              deleteNote(closeButton[i]);
+            });
+          }
         }
 
         document
           .querySelector(".btn.btn-primary")
           .addEventListener("click", e => {
-            var clone1 = document.querySelectorAll(".note")[
-              document.querySelectorAll(".note").length - 1
-            ];
+            var clone1 = document.querySelector(".note");
             var clone3 = clone1.cloneNode(true);
             clone3.firstElementChild.firstElementChild.textContent =
               "Sticky Notes " + count;
@@ -265,19 +259,19 @@
               }
             );
           });
-        // console.log(newElement);
+        console.log(newElement);
 
         document.addEventListener("click", function(event) {
-          // console.log(newElement);
+          console.log(newElement);
           if (newElement !== undefined) {
             var isClickInside = newElement.contains(event.target);
-            //   console.log("tset");
+            //  console.log("tset");
 
             if (!isClickInside) {
               getData(newElement);
               //     console.log(newElement.getAttribute("data-id"));
               if (newElement.getAttribute("data-id") === null) {
-                //   console.log("loop");
+                console.log("loop");
                 fetch(url, {
                   method: "POST",
                   body: JSON.stringify(data),
@@ -299,7 +293,7 @@
 
                 prevText = getData(newElement);
               } else if (newElement.getAttribute("data-id") !== null) {
-                //console.log("loop");
+                console.log("PUT loop");
                 let newURL = url + newElement.getAttribute("data-id");
 
                 if (prevText != getData(newElement)) {
@@ -322,6 +316,8 @@
           }
         });
 
+        console.log(document.querySelectorAll(".note-text").length);
+        console.log(document.querySelectorAll(".close").length);
         /* function prevData(element) {
                         prevText = element.textContent;
                         return prevText;
