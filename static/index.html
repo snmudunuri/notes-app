@@ -133,9 +133,6 @@
         let count = 1;
         retrieveData();
         setTimeout(function() {
-          console.log(document.querySelectorAll(".note-text").length);
-          console.log(document.querySelectorAll(".close").length);
-
           addListeners();
         }, 600);
 
@@ -217,9 +214,6 @@
                 prevText = newElement.textContent;
               });
           }
-          console.log(newElement);
-          console.log(prevText);
-
           for (let i = 0; i < closeButton.length; i++) {
             closeButton[i].addEventListener("click", () => {
               deleteNote(closeButton[i]);
@@ -263,10 +257,10 @@
               }
             );
           });
-        console.log(newElement);
+        //console.log(newElement);
 
         document.addEventListener("click", function(event) {
-          console.log(newElement);
+          // console.log(newElement);
           if (newElement !== undefined) {
             var isClickInside = newElement.contains(event.target);
             //  console.log("tset");
@@ -275,7 +269,7 @@
               getData(newElement);
               //     console.log(newElement.getAttribute("data-id"));
               if (newElement.getAttribute("data-id") === null) {
-                console.log("loop");
+                //  console.log("loop");
                 fetch(url, {
                   method: "POST",
                   body: JSON.stringify(data),
@@ -297,7 +291,7 @@
 
                 prevText = getData(newElement);
               } else if (newElement.getAttribute("data-id") !== null) {
-                console.log("PUT loop");
+                //console.log("PUT loop");
                 let newURL = url + newElement.getAttribute("data-id");
 
                 if (prevText != getData(newElement)) {
@@ -320,12 +314,6 @@
           }
         });
 
-        console.log(document.querySelectorAll(".note-text").length);
-        console.log(document.querySelectorAll(".close").length);
-        /* function prevData(element) {
-                        prevText = element.textContent;
-                        return prevText;
-                      } */
         function getData(element) {
           let newData = element.textContent;
           data = {
